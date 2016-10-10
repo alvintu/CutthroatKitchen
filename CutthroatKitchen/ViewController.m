@@ -13,8 +13,6 @@
 
 @interface ViewController ()
 
-@property (nonatomic) double cookingPower;
-@property (nonatomic) double moralePower;
 @property (nonatomic) double chanceToWin;
 
 
@@ -36,8 +34,8 @@
 
 -(void)startGame{
     
-    _cookingPower = 0.0;
-    _moralePower = 0.0;
+//    _cookingPower = 0.0;
+//    _moralePower = 0.0;
     _chanceToWin = 0.0;
     
     NSString *intro = @"hello chefs. welcome to cutthroat kitchen.";
@@ -58,12 +56,14 @@
     NSLog(@"%@",intro);
     
     
+    
+    //everyones
+    
     [self presentCulinaryChallenge];
     [self startShopping];
     
     [self presentSabotages];
-    [self startBidding];
-    
+    [self startAuction];
     [self startCooking];
     [self elimination];
     
@@ -72,11 +72,18 @@
 
 -(void)presentCulinaryChallenge{
     
-    //present recipe from  bigOvenAPI
-    //Here's a sample response for GET /recipe/530115
     
     
-
+    
+    
+    //view - present name of recipe
+    
+    
+    
+    //CurrentRecipe should be an object that contains ingredient arrays
+    //take all ingredients and place it into an array
+    //so many paid apis i might have to make a data loader app to fill maybe 50 recipes
+    //with ingredients attribute
     
     
     
@@ -85,24 +92,54 @@
 
 -(void)startShopping{
     
+    //for ingredient in recipe.ingredients{
+//    if(enteredText.string = ingredient){
+    //shopScore++
+    //
+    //
+    
     //user has 30 secs to shop/type up to 10 items in their basket
+    //for each correct item, they get temporary 0.5 CP boost for this round
     
     
+    
+    //cookingPower += (shopScore*.05);
+    //shopScore = nil
 }
 
 
 -(void)presentSabotages{
-    //present sabotages and give range that it can damage someone's CP temporarily
-    //present sabotages and give range that it can damage someone's morale for rest of round
+    
+    
+    NSString *sabotageIntro =  @"";
+    
+//    Sabotage init = [Sabotage initwith:target(s) andCPDamage orMoraleDamage
+    //damage inflicted is Sabotage.CPDamage/target.counts + moraleDamage/target.counts
+    
+    //present sabotages and give range that it can damage someone's CP
+    //present sabotages and give range that it can damage someone's morale
+    //temp/permanent attribute decreases should not be in this method, but rather at the end of round or new round method
 
     
 }
 
--(void)startBidding{
+-(void)startAuction{
     
     //AI will bid based on their hidden AI attribute frugality
     //0 bids to max 3 bids
+//start bid = 500; min bid 100; max bid = 10,000
+//50% chance bid (1-10) * 100 //this means 50% chance to raise bid to 100-1000
+//35% chance bid (1-3) * 1000
+//15% chance bid (4-5) * 1000
 
+     //one of the debuffs is losing money
+    [self applyDebuffs];
+    
+    
+}
+
+
+-(void)applyDebuffs{
     
 }
 
@@ -127,6 +164,7 @@
     //eliminate the person with the lowest % chance to win
     //chance to win is calculated by (endOfRoundCP * multiplier) + morale
     //everyone starts with 100% morale, everyone's CP is a range of 65-75
+    //remove Player from Player Array
     
 }
 

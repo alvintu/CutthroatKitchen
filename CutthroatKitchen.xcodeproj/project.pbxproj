@@ -13,6 +13,9 @@
 		C8809FA31DA4A4A200D19FE0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C8809FA11DA4A4A200D19FE0 /* Main.storyboard */; };
 		C8809FA51DA4A4A200D19FE0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C8809FA41DA4A4A200D19FE0 /* Assets.xcassets */; };
 		C8809FA81DA4A4A200D19FE0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C8809FA61DA4A4A200D19FE0 /* LaunchScreen.storyboard */; };
+		C8A7D4701DAB1090009DB97D /* Recipe.m in Sources */ = {isa = PBXBuildFile; fileRef = C8A7D46F1DAB1090009DB97D /* Recipe.m */; };
+		C8A7D4731DAB109F009DB97D /* Player.m in Sources */ = {isa = PBXBuildFile; fileRef = C8A7D4721DAB109F009DB97D /* Player.m */; };
+		C8A7D4761DAB10A5009DB97D /* Sabotage.m in Sources */ = {isa = PBXBuildFile; fileRef = C8A7D4751DAB10A5009DB97D /* Sabotage.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +29,12 @@
 		C8809FA41DA4A4A200D19FE0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C8809FA71DA4A4A200D19FE0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C8809FA91DA4A4A200D19FE0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C8A7D46E1DAB1090009DB97D /* Recipe.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Recipe.h; sourceTree = "<group>"; };
+		C8A7D46F1DAB1090009DB97D /* Recipe.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Recipe.m; sourceTree = "<group>"; };
+		C8A7D4711DAB109F009DB97D /* Player.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Player.h; sourceTree = "<group>"; };
+		C8A7D4721DAB109F009DB97D /* Player.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Player.m; sourceTree = "<group>"; };
+		C8A7D4741DAB10A5009DB97D /* Sabotage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sabotage.h; sourceTree = "<group>"; };
+		C8A7D4751DAB10A5009DB97D /* Sabotage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sabotage.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +71,12 @@
 				C8809F9C1DA4A4A200D19FE0 /* AppDelegate.m */,
 				C8809F9E1DA4A4A200D19FE0 /* ViewController.h */,
 				C8809F9F1DA4A4A200D19FE0 /* ViewController.m */,
+				C8A7D46E1DAB1090009DB97D /* Recipe.h */,
+				C8A7D46F1DAB1090009DB97D /* Recipe.m */,
+				C8A7D4711DAB109F009DB97D /* Player.h */,
+				C8A7D4721DAB109F009DB97D /* Player.m */,
+				C8A7D4741DAB10A5009DB97D /* Sabotage.h */,
+				C8A7D4751DAB10A5009DB97D /* Sabotage.m */,
 				C8809FA11DA4A4A200D19FE0 /* Main.storyboard */,
 				C8809FA41DA4A4A200D19FE0 /* Assets.xcassets */,
 				C8809FA61DA4A4A200D19FE0 /* LaunchScreen.storyboard */,
@@ -150,8 +165,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				C8809FA01DA4A4A200D19FE0 /* ViewController.m in Sources */,
+				C8A7D4761DAB10A5009DB97D /* Sabotage.m in Sources */,
 				C8809F9D1DA4A4A200D19FE0 /* AppDelegate.m in Sources */,
 				C8809F9A1DA4A4A200D19FE0 /* main.m in Sources */,
+				C8A7D4701DAB1090009DB97D /* Recipe.m in Sources */,
+				C8A7D4731DAB109F009DB97D /* Player.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -300,6 +318,7 @@
 				C8809FAE1DA4A4A200D19FE0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
