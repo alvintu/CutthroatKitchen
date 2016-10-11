@@ -179,17 +179,19 @@ Sabotage *noKnives = [[Sabotage alloc]initWithName:@"No Knives" info:@"The selec
         
         NSLog(@"%i",player.numOfBids);
         
-        if( player.numOfBids == 0){
+        if( player.numOfBids == 0 || self.lastBidder == player){
             player.canBid = false;
         }
 
     }
     }
     
-    
+    for(Player *player in self.players){
+        while(player.numOfBids > 0){
+   
     for(Player *player in self.players){
         
-        while(player.canBid){
+        if(player.numOfBids > 0 && self.lastBidder != player){
             float bidChance = ((double)arc4random() / ARC4RANDOM_MAX);
             //amount an AI will bid depends on a percentage
             
@@ -205,12 +207,24 @@ Sabotage *noKnives = [[Sabotage alloc]initWithName:@"No Knives" info:@"The selec
                 bidAmount = player.wallet * .02;
                 
             }
-            
-            NSLog(@"bidChance is %f",bidChance);
-            
+
+         
+         
+
+             if(self.lastBidder != player){
             bid += bidAmount;
-            NSLog(@"bid is %i",bid);
+
             
+             }
+
+            self.lastBidder = player;
+            
+            
+             
+            
+            NSLog(@"%@ bids %i",self.lastBidder.name, bid);
+            
+          
 
 
             //start bid = 500; min bid 100; max bid = Player.amountOfMoney * .5
@@ -218,17 +232,28 @@ Sabotage *noKnives = [[Sabotage alloc]initWithName:@"No Knives" info:@"The selec
             //35% chance bid (1-3) * 1000
             //15% chance bid max bid;
             
-            
             player.numOfBids -=1;
+
+
             
 
             if( player.numOfBids == 0){
                 player.canBid = false;
+
+
             }
             
+        }}
         
             
-            
+            //the logic is done for AI's bidding against each other
+            //but how would this work with one single Player
+            //a single Player has an unlimited amount of bids based on his leftover Money
+            //you can just set a timer for AI every 2 secs to check if the last bid was theirs...
+            //if not, use a bid/if no bids, then AI stop bidding
+            //the logic for the actual player has very little to do with the AI;
+            //in the view, we can show the current bid in the center
+            //and current bids appear and then fade on top of the player's head;
             
             
             
