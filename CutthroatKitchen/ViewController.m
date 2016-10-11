@@ -9,6 +9,9 @@
 //a single player with AI text-based game based on cutthroat kitchen
 
 
+#define ARC4RANDOM_MAX      0x100000000
+
+
 #import "ViewController.h"
 #import "Recipe.h"
 #import "Player.h"
@@ -17,7 +20,10 @@
 @interface ViewController ()
 
 @property (nonatomic) double chanceToWin;
-
+@property (nonatomic) BOOL inAuction;
+@property (nonatomic) BOOL sabotageDealt;
+@property (nonatomic) NSMutableArray *players;
+@property (nonatomic) Player *lastBidder;
 
 
 @end
@@ -27,11 +33,22 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    Player *player1 = [[Player alloc]initWithName:@"player1"];
+    Player *player2 = [[Player alloc]initWithName:@"player2"];
+    Player *player3 = [[Player alloc]initWithName:@"player3"];
+    Player *player4 = [[Player alloc]initWithName:@"player4"];
+    
+    _players = [@[player1,player2,player3,player4]mutableCopy];
+
+    
+    [self startGame];
 
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
+    
+
     // Dispose of any resources that can be recreated.
 }
 
@@ -134,25 +151,100 @@ Sabotage *noKnives = [[Sabotage alloc]initWithName:@"No Knives" info:@"The selec
 }
 
 -(void)startAuction{
-    //VC.inAuction = true
+    self.inAuction = true;
     
-    //auction----
-    //it can be conditional based on current VC's bool
-    //if VC.inAuction = true
+    int bid = 500; //starting bid -500
 
     
-    //startAuction can be a Player property bool that can be set to true when an auction starts
-    //for example, for _ in PlayerArray(Player.canBid = true)
+    if (self.inAuction){
+
+    
+    for(Player *player in self.players){  //allow all Players to bid
+        player.canBid = true;
+        }
+    
+    }
+    
+    
+    
+    for(Player *player in self.players){
+        
+    if(player.canBid){
+        
+    player.numOfBids = arc4random_uniform(3);
+        
+        //generate number of Bids property using arc4random_uniform;
+        //0 bids to max 2 bids
+
+        
+        NSLog(@"%i",player.numOfBids);
+        
+        if( player.numOfBids == 0){
+            player.canBid = false;
+        }
+
+    }
+    }
+    
+    
+    for(Player *player in self.players){
+        
+        while(player.canBid){
+            float bidChance = ((double)arc4random() / ARC4RANDOM_MAX);
+            //amount an AI will bid depends on a percentage
+            
+            int bidAmount;
+            
+            if(bidChance >= .90){
+                bidAmount = player.wallet * .1;
+            }
+            else if(bidChance < .90 && bidChance > 0.5){
+                bidAmount = player.wallet * .04;
+            }
+            else{
+                bidAmount = player.wallet * .02;
+                
+            }
+            
+            NSLog(@"bidChance is %f",bidChance);
+            
+            bid += bidAmount;
+            NSLog(@"bid is %i",bid);
+            
+
+
+            //start bid = 500; min bid 100; max bid = Player.amountOfMoney * .5
+            //50% chance bid (1-10) * 100 //this means 50% chance to raise bid to 100-1000
+            //35% chance bid (1-3) * 1000
+            //15% chance bid max bid;
+            
+            
+            player.numOfBids -=1;
+            
+
+            if( player.numOfBids == 0){
+                player.canBid = false;
+            }
+            
+        
+            
+            
+            
+            
+            
+            //bid on sabotage
+            //requirements - cannot bid twice in row so track last bid
+            //bids can only be 100 to Player.amountOfMoney *.5
+        }
+    }
     
     
     
     
     
-    
-    //for _ in PlayerArray(if Player.canBid)
-    //Player.amountOfBids = arc4random_uniform(3);
-    //if Player.amountOfBids = 0//
-    //Player.canBid = false
+
+
+
     
     
     
@@ -164,17 +256,6 @@ Sabotage *noKnives = [[Sabotage alloc]initWithName:@"No Knives" info:@"The selec
     //set VC.sabotageDealt = false //resetting the sabotage phase
 //}
 
-    
-    //AI will bid based on their hidden AI attribute frugality
-    //0 bids to max 3 bids
-    
-    
-    
-//start bid = 500; min bid 100; max bid = Player.amountOfMoney * .5
-//50% chance bid (1-10) * 100 //this means 50% chance to raise bid to 100-1000
-//35% chance bid (1-3) * 1000
-//15% chance bid max bid;
-    
 
      //one of the debuffs is losing money
     [self applyDebuffs];

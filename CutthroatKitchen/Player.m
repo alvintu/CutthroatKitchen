@@ -17,7 +17,7 @@
     
     _name = name;
     
-    
+    _wallet = 25000;
     double randomGen = arc4random_uniform(20);
     
     

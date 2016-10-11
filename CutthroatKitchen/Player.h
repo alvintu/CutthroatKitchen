@@ -18,5 +18,9 @@
 @property (nonatomic) double chanceToWin;
 
 @property (nonatomic,strong) NSString *name;
+@property (nonatomic) BOOL canBid;
+@property (nonatomic) int numOfBids;
+@property (nonatomic) int wallet;
+
 
 @end
