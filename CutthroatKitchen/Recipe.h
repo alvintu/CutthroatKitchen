@@ -10,6 +10,8 @@
 
 @interface Recipe : NSObject
 
+-(id)initWithName:(NSString*)name andIngredients:(NSMutableArray*)ingredients;
+
 @property (nonatomic,strong) NSString *name;
 @property (nonatomic,strong) NSMutableArray *ingredients;
 

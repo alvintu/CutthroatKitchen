@@ -10,6 +10,9 @@
 
 
 #import "ViewController.h"
+#import "Recipe.h"
+#import "Player.h"
+#import "Sabotage.h"
 
 @interface ViewController ()
 
@@ -33,10 +36,6 @@
 }
 
 -(void)startGame{
-    
-//    _cookingPower = 0.0;
-//    _moralePower = 0.0;
-    _chanceToWin = 0.0;
     
     NSString *intro = @"hello chefs. welcome to cutthroat kitchen.";
     NSString *intro2 = @"You're going to compete in 3 culinary challenges.";
@@ -72,6 +71,12 @@
 
 -(void)presentCulinaryChallenge{
     
+    NSMutableArray *inputIngredients = @[@"salt",@"pepper",@"eggs",@"bread",@"ham"];
+    
+    Recipe *eggsBenedict = [[Recipe alloc]initWithName:@"Eggs Benedict" andIngredients: inputIngredients];
+    
+    
+    NSLog(@"Your 1st challenge will be %@",eggsBenedict.name);
     
     
     
@@ -92,6 +97,14 @@
 
 -(void)startShopping{
     
+    NSMutableArray *collectedIngredients;
+    
+    
+    
+    //when hit submit button add object into a mutable array
+    //match array with recipe.ingredients array
+    
+    
     //for ingredient in recipe.ingredients{
 //    if(enteredText.string = ingredient){
     //shopScore++
@@ -111,29 +124,62 @@
 -(void)presentSabotages{
     
     
-    NSString *sabotageIntro =  @"";
+Sabotage *noKnives = [[Sabotage alloc]initWithName:@"No Knives" info:@"The selected target will be without knives for the entire round" CPDebuff:5 MoraleDebuff:10];
     
-//    Sabotage init = [Sabotage initwith:target(s) andCPDamage orMoraleDamage
-    //damage inflicted is Sabotage.CPDamage/target.counts + moraleDamage/target.counts
     
-    //present sabotages and give range that it can damage someone's CP
-    //present sabotages and give range that it can damage someone's morale
-    //temp/permanent attribute decreases should not be in this method, but rather at the end of round or new round method
+    NSLog(@"Haha! Here comes the fun part. This sabotage is called, %@",noKnives.name);
+    NSLog(@"Info: %@, Cooking Power Damage: %f, Morale Damage : %f",noKnives.info, noKnives.cookingDebuff,noKnives.moraleDebuff);
 
-    
+
 }
 
 -(void)startAuction{
+    //VC.inAuction = true
+    
+    //auction----
+    //it can be conditional based on current VC's bool
+    //if VC.inAuction = true
+
+    
+    //startAuction can be a Player property bool that can be set to true when an auction starts
+    //for example, for _ in PlayerArray(Player.canBid = true)
+    
+    
+    
+    
+    
+    
+    //for _ in PlayerArray(if Player.canBid)
+    //Player.amountOfBids = arc4random_uniform(3);
+    //if Player.amountOfBids = 0//
+    //Player.canBid = false
+    
+    
+    
+//    if VC.sabotageDealt = true
+//    {
+    //set VC.inAuction = false
+    //for _ in PlayerArray = Player.canBid = false;
+    
+    //set VC.sabotageDealt = false //resetting the sabotage phase
+//}
+
     
     //AI will bid based on their hidden AI attribute frugality
     //0 bids to max 3 bids
-//start bid = 500; min bid 100; max bid = 10,000
+    
+    
+    
+//start bid = 500; min bid 100; max bid = Player.amountOfMoney * .5
 //50% chance bid (1-10) * 100 //this means 50% chance to raise bid to 100-1000
 //35% chance bid (1-3) * 1000
-//15% chance bid (4-5) * 1000
+//15% chance bid max bid;
+    
 
      //one of the debuffs is losing money
     [self applyDebuffs];
+    
+    
     
     
 }

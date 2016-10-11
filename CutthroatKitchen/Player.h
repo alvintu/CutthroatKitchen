@@ -11,6 +11,8 @@
 @interface Player : NSObject
 
 
+-(id)initWithName:(NSString*)name;
+
 @property (nonatomic) double cookingPower;
 @property (nonatomic) double moralePower;
 @property (nonatomic) double chanceToWin;

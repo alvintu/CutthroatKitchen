@@ -23,9 +23,3 @@
 }
 
 @end
-//    Sabotage init = [Sabotage initwith:target(s) andCPDamage orMoraleDamage
-//damage inflicted is Sabotage.CPDamage/target.counts + moraleDamage/target.counts
-
-//present sabotages and give range that it can damage someone's CP
-//present sabotages and give range that it can damage someone's morale
-//temp/permanent attribute decreases should not be in this method, but rather at the end of round or new round method

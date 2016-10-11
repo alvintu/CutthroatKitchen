@@ -10,6 +10,10 @@
 #import "Player.h"
 
 @interface Sabotage : NSObject
+
+
+-(id)initWithName:(NSString*)name info:(NSString*)info CPDebuff:(double)CPDebuff MoraleDebuff:(double)moraleDebuff;
+
 @property (nonatomic,strong) NSString* name;
 @property (nonatomic,strong) NSString* info;
 
