@@ -24,6 +24,8 @@
 @property (nonatomic) BOOL sabotageDealt;
 @property (nonatomic) NSMutableArray *players;
 @property (nonatomic) Player *lastBidder;
+@property (nonatomic) Recipe *currentChallenge;
+@property (nonatomic) Sabotage *currentSabotage;
 
 
 @end
@@ -34,6 +36,9 @@
     [super viewDidLoad];
     
     Player *player1 = [[Player alloc]initWithName:@"player1"];
+    
+    //player1 is me//send a textfield entry into this name init
+    
     Player *player2 = [[Player alloc]initWithName:@"player2"];
     Player *player3 = [[Player alloc]initWithName:@"player3"];
     Player *player4 = [[Player alloc]initWithName:@"player4"];
@@ -88,7 +93,7 @@
 
 -(void)presentCulinaryChallenge{
     
-    NSMutableArray *inputIngredients = @[@"salt",@"pepper",@"eggs",@"bread",@"ham"];
+    NSMutableArray *inputIngredients = [@[@"salt",@"pepper",@"eggs",@"bread",@"ham"]mutableCopy];
     
     Recipe *eggsBenedict = [[Recipe alloc]initWithName:@"Eggs Benedict" andIngredients: inputIngredients];
     
@@ -97,7 +102,7 @@
     
     
     
-    
+    self.currentChallenge = eggsBenedict;
     //view - present name of recipe
     
     
@@ -114,27 +119,54 @@
 
 -(void)startShopping{
     
-    NSMutableArray *collectedIngredients;
+    double shopScore = 0;
+
+    
+    NSMutableArray *collectedIngredients = [[NSMutableArray alloc]init];
+    
+    [collectedIngredients addObject:@"salt"];
+    [collectedIngredients addObject:@"poop"];
+    [collectedIngredients addObject:@"eggs"];
+    
+    NSLog(@"collectedIngredients :  %@",collectedIngredients);
     
     
+    
+    NSLog(@"challengeIngredients : %@",_currentChallenge);
+
     
     //when hit submit button add object into a mutable array
     //match array with recipe.ingredients array
     
     
-    //for ingredient in recipe.ingredients{
-//    if(enteredText.string = ingredient){
-    //shopScore++
-    //
-    //
+    for (NSString* challengeIngredient in self.currentChallenge.ingredients){
+        for(NSString* myIngrediient in collectedIngredients){
+    if([myIngrediient isEqualToString:challengeIngredient]){
+        shopScore++;
+    }
+            
+        
+        }
+    }
     
-    //user has 30 secs to shop/type up to 10 items in their basket
+    double cookingPower = 0;
+    cookingPower += (shopScore*.5);
+
+    
+    
+    NSLog(@"shopScore is %f, therefore cookingPower is %f",shopScore,cookingPower);
+    
+    
+    //user has 30 secs to shop/type up to maximum of 10 items in their basket
     //for each correct item, they get temporary 0.5 CP boost for this round
     
     
     
-    //cookingPower += (shopScore*.05);
+    //cookingPower += (shopScore*.5);
     //shopScore = nil
+        
+    
+
 }
 
 
@@ -171,7 +203,7 @@ Sabotage *noKnives = [[Sabotage alloc]initWithName:@"No Knives" info:@"The selec
         
     if(player.canBid){
         
-    player.numOfBids = arc4random_uniform(3);
+    player.numOfBids = arc4random_uniform(5);
         
         //generate number of Bids property using arc4random_uniform;
         //0 bids to max 2 bids
