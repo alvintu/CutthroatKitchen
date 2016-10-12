@@ -23,7 +23,7 @@
     
     
     
-    _cookingPower =  50 + randomGen;
+    _cookingPower =  50 + randomGen; //random cooking Power from 50 to 69
     _moralePower = 100;
     _chanceToWin =  0;
     

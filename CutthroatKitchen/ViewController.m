@@ -10,6 +10,7 @@
 
 
 #define ARC4RANDOM_MAX      0x100000000
+#include <stdlib.h>
 
 
 #import "ViewController.h"
@@ -23,9 +24,13 @@
 @property (nonatomic) BOOL inAuction;
 @property (nonatomic) BOOL sabotageDealt;
 @property (nonatomic) NSMutableArray *players;
+@property (nonatomic) NSMutableArray *sabotageList;
 @property (nonatomic) Player *lastBidder;
 @property (nonatomic) Recipe *currentChallenge;
 @property (nonatomic) Sabotage *currentSabotage;
+@property (nonatomic) Player *mainPlayer;
+@property (nonatomic) Player *currentTarget;
+
 
 
 @end
@@ -43,7 +48,15 @@
     Player *player3 = [[Player alloc]initWithName:@"player3"];
     Player *player4 = [[Player alloc]initWithName:@"player4"];
     
+    _mainPlayer = player1;
+    
+    
+    
+//    player1.cookingPower = 
+    
     _players = [@[player1,player2,player3,player4]mutableCopy];
+    
+    _sabotageList = _players;
 
     
     [self startGame];
@@ -150,11 +163,12 @@
     }
     
     double cookingPower = 0;
-    cookingPower += (shopScore*.5);
-
+    cookingPower += shopScore;
     
     
-    NSLog(@"shopScore is %f, therefore cookingPower is %f",shopScore,cookingPower);
+    
+    
+    NSLog(@"shopScore is %f, therefore cookingPower is %.02f",shopScore,cookingPower);
     
     
     //user has 30 secs to shop/type up to maximum of 10 items in their basket
@@ -164,8 +178,19 @@
     
     //cookingPower += (shopScore*.5);
     //shopScore = nil
-        
     
+    
+    
+    for(Player *player in  _players){
+        NSLog(@"%@ cookingPower is %f", player.name, player.cookingPower);
+    };
+    
+    _mainPlayer.cookingPower += cookingPower;
+    
+    
+    
+    NSLog(@"%@ cookingPower is %f", _mainPlayer.name, _mainPlayer.cookingPower);
+
 
 }
 
@@ -174,6 +199,8 @@
     
     
 Sabotage *noKnives = [[Sabotage alloc]initWithName:@"No Knives" info:@"The selected target will be without knives for the entire round" CPDebuff:5 MoraleDebuff:10];
+    
+    _currentSabotage = noKnives;
     
     
     NSLog(@"Haha! Here comes the fun part. This sabotage is called, %@",noKnives.name);
@@ -293,6 +320,8 @@ Sabotage *noKnives = [[Sabotage alloc]initWithName:@"No Knives" info:@"The selec
             //requirements - cannot bid twice in row so track last bid
             //bids can only be 100 to Player.amountOfMoney *.5
         }
+        
+
     }
     
     
@@ -315,6 +344,45 @@ Sabotage *noKnives = [[Sabotage alloc]initWithName:@"No Knives" info:@"The selec
 
 
      //one of the debuffs is losing money
+    
+    self.lastBidder.wallet -= bid;
+    //deduct $ from wallet when bid is won
+    
+    NSLog(@"%@ is the winner of the sabotage",self.lastBidder.name);
+    NSLog(@"%@ has $%i left",self.lastBidder.name, self.lastBidder.wallet);
+    
+    
+    [_sabotageList removeObject:self.lastBidder];
+    
+    
+    
+    int countOfPotentialTargets =(int) _sabotageList.count;
+    int randomGen = arc4random_uniform(countOfPotentialTargets);
+    
+    _currentSabotage.target =  [_players objectAtIndex:randomGen];
+
+
+    
+    NSLog(@"%@ cookingPower was %.02f and morale was %.02f",_currentSabotage.target.name,_currentSabotage.target
+          .cookingPower,_currentSabotage.target
+          .moralePower);
+    
+//random player? player1 can select
+    
+    _currentSabotage.target.cookingPower -= _currentSabotage.cookingDebuff;
+    _currentSabotage.target.moralePower -= _currentSabotage.moraleDebuff;
+
+    
+    NSLog(@"%@ cookingPower is now  %.02f and moralePower is  now %.02f",_currentSabotage.target.name,_currentSabotage.target
+          .cookingPower,_currentSabotage.target
+          .moralePower);
+    //give player1 to random select target
+    //or another method to press a player to apply debuffs
+    //for now lets do it randomly to simplicity
+    
+    
+
+
     [self applyDebuffs];
     
     
@@ -324,6 +392,8 @@ Sabotage *noKnives = [[Sabotage alloc]initWithName:@"No Knives" info:@"The selec
 
 
 -(void)applyDebuffs{
+    
+    
     
 }
 
