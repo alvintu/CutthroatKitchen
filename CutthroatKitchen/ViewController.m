@@ -25,6 +25,8 @@
 @property (nonatomic) BOOL sabotageDealt;
 @property (nonatomic) NSMutableArray *players;
 @property (nonatomic) NSMutableArray *sabotageList;
+@property (nonatomic) NSMutableArray *biddingList;
+
 @property (nonatomic) Player *lastBidder;
 @property (nonatomic) Recipe *currentChallenge;
 @property (nonatomic) Sabotage *currentSabotage;
@@ -93,14 +95,14 @@
     
     //everyones
     
-    [self presentCulinaryChallenge];
-    [self startShopping];
-    
+//    [self presentCulinaryChallenge];
+//    [self startShopping];
+//    
     [self presentSabotages];
     [self startAuction];
-    [self startCooking];
-    [self elimination];
-    
+//    [self startCooking];
+//    [self elimination];
+//    
 }
 
 
@@ -210,48 +212,75 @@ Sabotage *noKnives = [[Sabotage alloc]initWithName:@"No Knives" info:@"The selec
 }
 
 -(void)startAuction{
-    self.inAuction = true;
     
-    int bid = 500; //starting bid -500
+    _biddingList = [[NSMutableArray alloc]init];
+    self.inAuction = true; //start viewconroller's action sequence
+    
+    int bid = 500; //starting bid 500
 
     
-    if (self.inAuction){
-        for(Player *player in self.players){  //allow all Players to bid
-        player.canBid = true;
+        for(Player *player in self.players){ //alow all players to have a chance to bid
+            player.canBid = true;
+            [_biddingList addObject:player];
         }
-    }
-    
+
     
     
     for(Player *player in self.players){
         
     if(player.canBid){
         
-    player.numOfBids = arc4random_uniform(5);
-        //need to figure out why it only works 50/50 of the time when it is 5+ bids
-        //it has something to do with num of bids related to other numofbids
-        //ex if there is someone that can bid 4 and bid 2 the game will not get to sabotages
-        //generate number of Bids property using arc4random_uniform;
-        //0 bids to max 2 bids
-
+    player.numOfBids = arc4random_uniform(8);   //roll players intended amount of times to bid
         
-        NSLog(@"%i",player.numOfBids);
         
-        if( player.numOfBids == 0 || self.lastBidder == player){
+        NSLog(@"\n%@ intends on bidding %i times",player.name,player.numOfBids);
+        
+        if( player.numOfBids == 0){
             player.canBid = false;
+            [_biddingList removeObject:player];
+
         }
 
     }
     }
     
-    for(Player *player in self.players){
+    
+    //god damn problem method right here :(
+//    for(Player *player in self.players){
+
+    NSLog(@"bidding list countis  %lu",(unsigned long)_biddingList.count);
+//    while(player.numOfBids > 0 ){  //while we're in auction
+    
+    while(_biddingList.count > 1){
+    
         
-        NSLog(@"numOfBids is %d",player.numOfBids);
-        while(player.numOfBids > 0){
-   
-    for(Player *player in self.players){
+        //this while loop causes an infinite use of sequences because the condition is not met
+        //what's happening is that whie all other player.numOfBids reach 0 while one is still 1
+        //for example 4 bids 2 bids 2 bids
+        //1st player bids - 3 
+        //2nd player bids - 1
+        //3rd player bids - 1
         
-        if(player.numOfBids > 0 && self.lastBidder != player){
+        //1st player bids - 2
+        //2nd player bids - 0
+        //3rd player bids - 0
+
+        
+
+        
+        
+        
+        for(Player *player in self.players){
+
+    
+        
+        if(self.lastBidder == player){  //if the last bidder is the current player they can't bid
+            self.lastBidder.canBid = NO;
+        }
+        
+        
+    if(player.canBid){
+            
             float bidChance = ((double)arc4random() / ARC4RANDOM_MAX);
             //amount an AI will bid depends on a percentage
             
@@ -267,87 +296,61 @@ Sabotage *noKnives = [[Sabotage alloc]initWithName:@"No Knives" info:@"The selec
                 bidAmount = player.wallet * .02;
                 
             }
-
-         
-         
-
-             if(self.lastBidder != player){
+            
             bid += bidAmount;
 
-            
-             }
+        self.lastBidder = player;
 
-            self.lastBidder = player;
-            
-            
-             
-            
             NSLog(@"%@ bids %i",self.lastBidder.name, bid);
-            
-          
 
 
-            //start bid = 500; min bid 100; max bid = Player.amountOfMoney * .5
-            //50% chance bid (1-10) * 100 //this means 50% chance to raise bid to 100-1000
-            //35% chance bid (1-3) * 1000
-            //15% chance bid max bid;
-            
             player.numOfBids -=1;
+        
+        if(_biddingList.count == 1){
+            break;
+        }
 
 
-            
 
             if( player.numOfBids == 0){
                 player.canBid = false;
+                NSLog(@"%@ will be removed because he has %i bids left",player.name,player.numOfBids);
+                [_biddingList removeObject:player];
+
             }
             
-        }}
-            
-            //the logic is done for AI's bidding against each other
-            //but how would this work with one single Player
-            //a single Player has an unlimited amount of bids based on his leftover Money
-            //you can just set a timer for AI every 2 secs to check if the last bid was theirs...
-            //if not, use a bid/if no bids, then AI stop bidding
-            //the logic for the actual player has very little to do with the AI;
-            //in the view, we can show the current bid in the center
-            //and current bids appear and then fade on top of the player's head;
-            
-            
-            
-            //bid on sabotage
-            //requirements - cannot bid twice in row so track last bid
-            //bids can only be 100 to Player.amountOfMoney *.5
-        }
-        
 
+        
+        
+}
+        
     }
     
-    
-    
-    
+//    }
+    }
     
 
+    
+    NSLog(@" count of bidding list is %lu",_biddingList.count);
+    
+    self.lastBidder = _biddingList.firstObject;
+    
+    
+        self.lastBidder.wallet -= bid;
 
+        //deduct $ from wallet when bid is won
+        
+        NSLog(@"%@ is the winner of the sabotage",self.lastBidder.name);
+        NSLog(@"%@ has $%i left",self.lastBidder.name, self.lastBidder.wallet);
 
     
     
     
-//    if VC.sabotageDealt = true
-//    {
-    //set VC.inAuction = false
-    //for _ in PlayerArray = Player.canBid = false;
+        
     
-    //set VC.sabotageDealt = false //resetting the sabotage phase
-//}
 
-
-     //one of the debuffs is losing money
     
-    self.lastBidder.wallet -= bid;
-    //deduct $ from wallet when bid is won
     
-    NSLog(@"%@ is the winner of the sabotage",self.lastBidder.name);
-    NSLog(@"%@ has $%i left",self.lastBidder.name, self.lastBidder.wallet);
     
     
     [_sabotageList removeObject:self.lastBidder];
