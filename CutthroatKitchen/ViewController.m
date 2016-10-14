@@ -56,7 +56,7 @@
     
     _players = [@[player1,player2,player3,player4]mutableCopy];
     
-    _sabotageList = _players;
+    _sabotageList = [@[player1,player2,player3,player4]mutableCopy];
 
     
     [self startGame];
@@ -216,12 +216,9 @@ Sabotage *noKnives = [[Sabotage alloc]initWithName:@"No Knives" info:@"The selec
 
     
     if (self.inAuction){
-
-    
-    for(Player *player in self.players){  //allow all Players to bid
+        for(Player *player in self.players){  //allow all Players to bid
         player.canBid = true;
         }
-    
     }
     
     
@@ -231,7 +228,9 @@ Sabotage *noKnives = [[Sabotage alloc]initWithName:@"No Knives" info:@"The selec
     if(player.canBid){
         
     player.numOfBids = arc4random_uniform(5);
-        
+        //need to figure out why it only works 50/50 of the time when it is 5+ bids
+        //it has something to do with num of bids related to other numofbids
+        //ex if there is someone that can bid 4 and bid 2 the game will not get to sabotages
         //generate number of Bids property using arc4random_uniform;
         //0 bids to max 2 bids
 
@@ -246,6 +245,8 @@ Sabotage *noKnives = [[Sabotage alloc]initWithName:@"No Knives" info:@"The selec
     }
     
     for(Player *player in self.players){
+        
+        NSLog(@"numOfBids is %d",player.numOfBids);
         while(player.numOfBids > 0){
    
     for(Player *player in self.players){
@@ -298,12 +299,9 @@ Sabotage *noKnives = [[Sabotage alloc]initWithName:@"No Knives" info:@"The selec
 
             if( player.numOfBids == 0){
                 player.canBid = false;
-
-
             }
             
         }}
-        
             
             //the logic is done for AI's bidding against each other
             //but how would this work with one single Player
@@ -398,6 +396,10 @@ Sabotage *noKnives = [[Sabotage alloc]initWithName:@"No Knives" info:@"The selec
 }
 
 -(void)startCooking{
+    //cooking scene needs to be done last because it contains things i do not know yet
+    
+    
+    
     
     //30 seconds
     //random food objects appear to test your hand -eye coordination
@@ -415,6 +417,14 @@ Sabotage *noKnives = [[Sabotage alloc]initWithName:@"No Knives" info:@"The selec
 
 -(void)elimination{
     
+    
+    for(Player *player in self.players){
+        player.chanceToWin =  player.cookingPower * player.moralePower;
+        
+        
+        
+        NSLog(@"%f",player.chanceToWin);
+    }
     //eliminate the person with the lowest % chance to win
     //chance to win is calculated by (endOfRoundCP * multiplier) + morale
     //everyone starts with 100% morale, everyone's CP is a range of 65-75
