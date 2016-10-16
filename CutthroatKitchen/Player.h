@@ -15,7 +15,7 @@
 
 @property (nonatomic) double cookingPower;
 @property (nonatomic) double moralePower;
-@property (nonatomic) double chanceToWin;
+@property (nonatomic) double score;
 
 @property (nonatomic,strong) NSString *name;
 @property (nonatomic) BOOL canBid;

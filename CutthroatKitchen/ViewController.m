@@ -100,9 +100,9 @@
 //    
     [self presentSabotages];
     [self startAuction];
-//    [self startCooking];
-//    [self elimination];
-//    
+    [self startCooking];
+    [self elimination];
+    
 }
 
 
@@ -420,26 +420,68 @@ Sabotage *noKnives = [[Sabotage alloc]initWithName:@"No Knives" info:@"The selec
 
 -(void)elimination{
     
+    NSMutableArray *scores = [[NSMutableArray alloc]init];
+    
+    
     
     for(Player *player in self.players){
-        player.chanceToWin =  player.cookingPower * player.moralePower;
+        player.score =  player.cookingPower * player.moralePower;
         
+        [scores addObject:[NSNumber numberWithDouble:player.score]];
         
-        
-        NSLog(@"%f",player.chanceToWin);
+//        NSLog(@"%f",player.chanceToWin);
     }
     //eliminate the person with the lowest % chance to win
     //chance to win is calculated by (endOfRoundCP * multiplier) + morale
     //everyone starts with 100% morale, everyone's CP is a range of 65-75
     //remove Player from Player Array
+//    
+//    small = element[0]
+//    for each element in array, starting from 1 (not 0):
+//        if (element < small)
+//            small = element
+//            
+//            
+    //time complexity is (O)n
+    
+    NSNumber *lowestScore = scores[0];
+    for(NSNumber *score in scores){
+        NSLog(@"%@",score);
+
+        
+        if (score < lowestScore){
+            
+            
+            lowestScore = score;
+            
+        }
+        
+        
+    }
+
+    
+    NSLog(@"lowestScore is %@",lowestScore);
+    
+    NSMutableArray *tempCopy =  [[NSMutableArray alloc]init];
+    tempCopy = [self.players mutableCopy];
+    
+    
+    for(Player *player in tempCopy){
+        if([NSNumber numberWithDouble:player.score] == lowestScore){
+//
+            NSLog(@"%@ has the lowest score with a score of : %f",player.name, player.score);
+            [self.players removeObject:player]; //remove player with lowest score
+//
+          
+//
+        }
+    }
+    
+    for(Player *player in self.players){
+        NSLog(@"%@",player.name);
+    }
     
 }
-
-
-
-
-
-
 
 
 
