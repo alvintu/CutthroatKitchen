@@ -245,7 +245,6 @@ Sabotage *noKnives = [[Sabotage alloc]initWithName:@"No Knives" info:@"The selec
     }
     
     
-    //god damn problem method right here :(
 //    for(Player *player in self.players){
 
     NSLog(@"bidding list countis  %lu",(unsigned long)_biddingList.count);
@@ -254,20 +253,7 @@ Sabotage *noKnives = [[Sabotage alloc]initWithName:@"No Knives" info:@"The selec
     while(_biddingList.count > 1){
     
         
-        //this while loop causes an infinite use of sequences because the condition is not met
-        //what's happening is that whie all other player.numOfBids reach 0 while one is still 1
-        //for example 4 bids 2 bids 2 bids
-        //1st player bids - 3 
-        //2nd player bids - 1
-        //3rd player bids - 1
-        
-        //1st player bids - 2
-        //2nd player bids - 0
-        //3rd player bids - 0
-
-        
-
-        
+  
         
         
         for(Player *player in self.players){
